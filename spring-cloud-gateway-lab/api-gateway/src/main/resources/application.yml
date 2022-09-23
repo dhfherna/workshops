@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+#Spring Cloud Gateway - configuration
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-managment
+          uri: http://localhost:8091
+          predicates:
+            - Path=/user/**
+            - Method=GET,POST
+        - id: pokemon-api
+          uri: https://pokeapi.co
+          predicates:
+            - Path=/poke-api/api/v2/**
+            - Method=GET,POST
+          filters:
+            - RewritePath=/poke-api,/
