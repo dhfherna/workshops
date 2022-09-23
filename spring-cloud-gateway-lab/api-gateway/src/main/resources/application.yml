@@ -1,20 +1,48 @@
 server:
   port: 8090
 
+#Actuator API
+management:
+  endpoint:
+    gateway:
+      enabled: true
+    web:
+      exposure:
+        include: gateway
+
 #Spring Cloud Gateway - configuration
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://locahost:8080"
+            allowedMethods:
+              - GET
+              - POST
       routes:
         - id: user-managment
           uri: http://localhost:8091
           predicates:
             - Path=/user/**
             - Method=GET,POST
-        - id: pokemon-api
+        - id: product-management
+          uri: http://localhost:8092
+          predicates:
+            - Path=/products/**
+            - Method=GET,POST
+        - id: poke-api
           uri: https://pokeapi.co
           predicates:
-            - Path=/poke-api/api/v2/**
+            - Path=/poke-api-1/api/v2/**
             - Method=GET,POST
           filters:
-            - RewritePath=/poke-api,/
+            - RewritePath=/poke-api-1, /
+        - id: api-chock
+          uri: https://api.chucknorris.io/
+          predicates:
+            - Path=/poke-api-2/jokes/random/**
+            - Method=GET,POST
+          filters:
+            - RewritePath=/poke-api-2, /
