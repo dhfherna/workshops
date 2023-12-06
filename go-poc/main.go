@@ -52,6 +52,4 @@ func main() {
 	frase := "Hola mundo en mi alineacion tecnica"
 	a, e, _, o, u := contadorVocales(frase)
 	fmt.Println("Vocales: ", a, e, o, u)
-
-	//g.PrintGreetings()
 }
